@@ -42,19 +42,24 @@ function viewAlert(message){
   
 }
 
-function consultingAPI(){
+async function consultingAPI(){
   const termino = document.querySelector("#termino").value
   const key ="13306358-9908c6c25f1d87061a0998dff";
   const url =`https://pixabay.com/api/?key=${key}&q=${termino}&per_page=${paginationCant}&image_type=photo&page=${pagecurrent}`;
   
-  fetch(url)
-    .then (respons => respons.json())
-    .then (result =>{ 
-                    totalPag = calculatePag(result.totalHits)
-                    viewSearch(result.hits)
 
-})
+  try {
+    const respons = await fetch(url)
+    const result = await respons.json()
+    totalPag = calculatePag(result.totalHits)
+    viewSearch(result.hits)
+
+  } catch (err) {
+    console.log(err)
+  }
+
 }
+
 
 // crear generador para las paginas
 
